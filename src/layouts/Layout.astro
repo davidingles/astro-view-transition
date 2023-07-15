@@ -14,10 +14,13 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="view-transition" content="same-origin" />
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div id="content">
+			<slot />
+		</div>
 	</body>
 </html>
 <style is:global>
@@ -144,3 +147,22 @@ const { title } = Astro.props;
 		-moz-osx-font-smoothing: grayscale;
 	}
 </style>
+<script>
+	window.navigation.addEventlistener('navigate', ( event )=>{
+		console.log(event.destination.url)
+		const toUrl = new URL(event.destination.url)
+		// EN EL CASO DE QUE SEA UNA NAVEGACION A UNA PAGINA EXTERNA HACEMOS UN RETURN Y LO IGNORAMOS
+		if(location.origin !== toUrl.origin) return
+		// SI ES UNA NAVEGACION EN EL MISMO DOMINIO ENTONCES INTERCEPTAMOS EL EVENTO
+		event.intercept({
+			async handler () {
+				// vamos a hacer un fetch del destino (texto plano)
+				const response = await fetch(toUrl.pathname)
+				const text = await response.text()
+// DEL TEXTO PLANO NOS QUEDAMOS SOLO CON LO QUE HAY DENTRO DEL BODY USANDO UN REGEX
+				const data = text.match(/<body[^>]*>([\s\S]*)<\/body>/i)[1] 
+			}
+		})
+
+	})
+</script>
