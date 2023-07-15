@@ -1,0 +1,32 @@
+---
+import BookItem from "./BookItem.astro";
+import { books } from '../data/book'
+---
+
+<ul class="main rounded-[3rem]">
+        {
+            books.map( ({id, title, img}) => {
+                return (
+                    <li>
+                        <BookItem id={id} title={title} img={img} />
+                    </li>
+                )
+            })
+        }
+</ul>
+
+<style>
+    .main{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+    border: solid 1px red;
+    padding: 1rem;
+    margin: 1rem;
+}
+@media screen and ( max-width:640px){
+    .main{
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+}
+</style>

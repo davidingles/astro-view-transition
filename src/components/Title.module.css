@@ -1,0 +1,18 @@
+.main{
+    max-width: 30rem;
+    margin: auto;
+    line-height: 3rem;
+}
+
+.h1{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 2rem;
+    text-align: center;
+    padding: 2rem 0rem;
+    color: black;
+}
+.subti{
+    display: block;
+    font-size: 3.3rem;
+}

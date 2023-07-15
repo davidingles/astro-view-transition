@@ -1,0 +1,41 @@
+<!-- OJO!!! PARA QUE ESTA PÁGINA DINÁMICA FUNCIONE TIENE QUE ESTAR EN LA CARPETA DE PAGES -->
+
+---
+
+import Botones from "../components/Botones.astro";
+import Layout from "../layouts/Layout.astro";
+import { books } from "../data/book";
+
+const { book } = Astro.params;
+
+const info = books.find( b => b.id === book)
+if(!info){
+    return Astro.redirect("/404")
+};
+
+---
+<Layout title={`Libro: ${info.id}`}>
+
+    <main class="m-auto max-w-[33rem] mt-20">
+        <div class="grid grid-cols-2">
+            <div class="flex flex-col">
+                <picture class="w-full relative">
+                    <img
+                        class="max-w-[11rem] border-8"
+                        src={info.img} alt=""
+                    >
+                    
+                </picture>
+                
+                <Botones/>
+  
+            </div>
+                <aside>
+                    <h1 class="font-extrabold mb-8">{info.title}</h1>
+        
+                    <p class="">{info.opinion}</p>
+                    <p class="font-extrabold mt-4">{info.author }</p>
+                </aside>
+        </div>
+    </main>
+</Layout>
